@@ -6,7 +6,7 @@
 /*   By: rmonnier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 17:59:36 by rmonnier          #+#    #+#             */
-/*   Updated: 2016/11/24 13:28:49 by rmonnier         ###   ########.fr       */
+/*   Updated: 2016/11/24 17:42:24 by rmonnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 
 typedef	struct				s_struct
 {
-		int					fd;
-		char				*str;
-		char				*offset;
-		struct s_struct		*next;
-		struct s_struct		*prev;
+	int						fd;
+	char					*str;
+	char					*offset;
+	struct s_struct			*next;
+	struct s_struct			*prev;
 }							t_buffer;
 
-int 						get_next_line(const int fd, char **line);
+int							get_next_line(const int fd, char **line);
 
 #endif

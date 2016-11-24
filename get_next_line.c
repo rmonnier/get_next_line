@@ -6,7 +6,7 @@
 /*   By: rmonnier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 17:58:22 by rmonnier          #+#    #+#             */
-/*   Updated: 2016/11/24 17:39:18 by rmonnier         ###   ########.fr       */
+/*   Updated: 2016/11/24 17:52:46 by rmonnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,22 @@ static int			get_buffer(int fd, t_buffer **buf)
 			return (0);
 		return (1);
 	}
+	while ((*buf)->fd != fd && (*buf)->prev != NULL)
+		(*buf) = (*buf)->prev;
+	while ((*buf)->fd != fd && (*buf)->next != NULL)
+		(*buf) = (*buf)->next;
 	if ((*buf)->fd != fd)
 	{
-		while ((*buf)->fd != fd && (*buf)->prev != NULL)
-			(*buf) = (*buf)->prev;
-		while ((*buf)->fd != fd && (*buf)->next != NULL)
-			(*buf) = (*buf)->next;
-		if ((*buf)->fd != fd)
-		{
-			if (!((*buf)->next = new_buffer(fd)))
-				return (0);
-			(*buf)->next->prev = *buf;
-			*buf = (*buf)->next;
-			return (1);
-		}
+		if (!((*buf)->next = new_buffer(fd)))
+			return (0);
+		(*buf)->next->prev = *buf;
+		*buf = (*buf)->next;
+	}
+	else if ((*buf)->offset != NULL)
+	{
+		(*buf)->offset++;
+		if (*(*buf)->offset == '\0')
+			(*buf)->offset = NULL;
 	}
 	return (1);
 }
@@ -109,10 +111,7 @@ int					get_next_line(const int fd, char **line)
 			*line = add_following_part(*line, buf->offset);
 			buf->offset = ft_strchr(buf->offset, '\n');
 			if (buf->offset != NULL)
-			{
-				buf->offset = *(buf->offset + 1) != '\0' ? buf->offset + 1 : NULL;
 				return (1);
-			}
 		}
 	}
 	return (*line != NULL ? 1 : 0);
