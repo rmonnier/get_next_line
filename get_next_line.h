@@ -6,7 +6,7 @@
 /*   By: rmonnier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 17:59:36 by rmonnier          #+#    #+#             */
-/*   Updated: 2016/11/24 17:42:24 by rmonnier         ###   ########.fr       */
+/*   Updated: 2016/11/28 17:41:10 by rmonnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <stdlib.h>
 
 # define BUFF_SIZE 32
+
+# if BUFF_SIZE <= 0
+#  error "invalid BUFF_SIZE"
+# endif
 
 typedef	struct				s_struct
 {
